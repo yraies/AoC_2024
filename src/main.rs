@@ -1,12 +1,14 @@
 use day01::Day1;
 use day02::Day2;
+use day03::Day3;
 use time::OffsetDateTime;
 
 mod day01;
 mod day02;
+mod day03;
 
 fn main() {
-    let days = [Day1::print, Day2::print];
+    let days = [Day1::print, Day2::print, Day3::print];
 
     let today = OffsetDateTime::now_utc().day() as usize;
     if today <= days.len() {
