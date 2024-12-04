@@ -26,8 +26,8 @@ impl AdventOfCodeDay for Day {
 
         let iters = horizontal
             .into_iter()
-            .chain(vertical.into_iter())
-            .chain(diagonal.into_iter());
+            .chain(vertical)
+            .chain(diagonal);
 
         let re1 = Regex::new("XMAS").unwrap();
         let re2 = Regex::new("SAMX").unwrap();
@@ -43,7 +43,6 @@ impl AdventOfCodeDay for Day {
         let re2 = Regex::new("SAM").unwrap();
 
         BlockIterator::from(grid)
-            .into_iter()
             .filter(|block| {
                 let diag = DiagonalIterator::from(block.to_owned());
                 diag.into_iter()
@@ -172,18 +171,17 @@ impl Iterator for DiagonalIterator {
 
             if *forward && *offset >= row {
                 let index = offset - row;
-                grid.grid[row].get(index).map(|c| *c)
+                grid.grid[row].get(index).copied()
             } else if !*forward && *offset >= self.grid.height - row - 1 {
                 let index = offset - (self.grid.height - row - 1);
-                grid.grid[row].get(index).map(|c| *c)
+                grid.grid[row].get(index).copied()
             } else {
                 None
             }
         };
 
         let res = (0..self.grid.height)
-            .map(|row| get_row(row))
-            .flatten()
+            .filter_map(get_row)
             .collect();
         self.offset += 1;
         Some(res)
@@ -216,17 +214,17 @@ impl Iterator for BlockIterator {
 
         let res = Grid2D::new(vec![
             vec![
-                self.grid.grid[self.offset_x + 0][self.offset_y + 0],
-                self.grid.grid[self.offset_x + 1][self.offset_y + 0],
-                self.grid.grid[self.offset_x + 2][self.offset_y + 0],
+                self.grid.grid[self.offset_x][self.offset_y],
+                self.grid.grid[self.offset_x + 1][self.offset_y],
+                self.grid.grid[self.offset_x + 2][self.offset_y],
             ],
             vec![
-                self.grid.grid[self.offset_x + 0][self.offset_y + 1],
+                self.grid.grid[self.offset_x][self.offset_y + 1],
                 self.grid.grid[self.offset_x + 1][self.offset_y + 1],
                 self.grid.grid[self.offset_x + 2][self.offset_y + 1],
             ],
             vec![
-                self.grid.grid[self.offset_x + 0][self.offset_y + 2],
+                self.grid.grid[self.offset_x][self.offset_y + 2],
                 self.grid.grid[self.offset_x + 1][self.offset_y + 2],
                 self.grid.grid[self.offset_x + 2][self.offset_y + 2],
             ],

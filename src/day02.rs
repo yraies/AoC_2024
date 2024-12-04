@@ -40,7 +40,6 @@ impl Report {
     fn is_safe_with_problem_dampener(&self) -> bool {
         self.is_safe()
             || (0..self.0.len())
-                .into_iter()
                 .any(|idx| self.with_idx_removed(idx).is_safe())
     }
 
