@@ -3,7 +3,7 @@ use crate::AdventOfCodeDay;
 pub struct Day;
 
 impl AdventOfCodeDay for Day {
-    const DAY: usize = 0;
+    const DAY: usize = 4;
     type Parsed = ();
 
     fn parse(_: String) -> Self::Parsed {

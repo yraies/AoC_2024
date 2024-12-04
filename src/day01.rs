@@ -1,9 +1,9 @@
 use crate::AdventOfCodeDay;
 use std::collections::HashMap;
 
-pub struct Day1;
+pub struct Day;
 
-impl AdventOfCodeDay for Day1 {
+impl AdventOfCodeDay for Day {
     const DAY: usize = 1;
     type Parsed = (Vec<i64>, Vec<i64>);
 

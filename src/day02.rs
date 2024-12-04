@@ -2,9 +2,9 @@ use std::cmp::Ordering;
 
 use crate::AdventOfCodeDay;
 
-pub struct Day2;
+pub struct Day;
 
-impl AdventOfCodeDay for Day2 {
+impl AdventOfCodeDay for Day {
     const DAY: usize = 2;
     type Parsed = Vec<Report>;
 

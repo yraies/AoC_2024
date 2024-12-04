@@ -1,9 +1,9 @@
 use crate::AdventOfCodeDay;
 use regex::Regex;
 
-pub struct Day3;
+pub struct Day;
 
-impl AdventOfCodeDay for Day3 {
+impl AdventOfCodeDay for Day {
     const DAY: usize = 3;
     type Parsed = String;
 
