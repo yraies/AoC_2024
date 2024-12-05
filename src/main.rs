@@ -4,6 +4,7 @@ mod day01;
 mod day02;
 mod day03;
 mod day04;
+mod day05;
 
 fn main() {
     let days = [
@@ -11,6 +12,7 @@ fn main() {
         day02::Day::print,
         day03::Day::print,
         day04::Day::print,
+        day05::Day::print,
     ];
 
     let today = OffsetDateTime::now_utc().day() as usize;
