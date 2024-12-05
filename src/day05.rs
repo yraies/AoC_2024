@@ -46,7 +46,7 @@ impl AdventOfCodeDay for Day {
         updates
             .iter()
             .filter_map(|update| {
-                let rules = rules.get_applicable_for(&update);
+                let rules = rules.get_applicable_for(update);
                 if !update.allowed_by(&rules) {
                     Some(update.order_by(&rules))
                 } else {
@@ -70,10 +70,8 @@ struct Rules(Vec<(usize, usize)>);
 impl Rules {
     fn allow(&self, pair: (usize, usize)) -> bool {
         // if any rule disallows an inverted pair we return false
-        self.0
-            .iter()
-            .find(|rule| (rule.0, rule.1) == (pair.1, pair.0))
-            .is_none()
+        !self.0
+            .iter().any(|rule| (rule.0, rule.1) == (pair.1, pair.0))
     }
 
     fn get_applicable_for(&self, update: &Update) -> Rules {
@@ -108,7 +106,7 @@ impl Update {
     }
 
     fn allowed_by(&self, rules: &Rules) -> bool {
-        let rules = rules.get_applicable_for(&self);
+        let rules = rules.get_applicable_for(self);
         for left in 0..(self.0.len() - 1) {
             for right in (left + 1)..(self.0.len()) {
                 if !rules.allow((self.0[left], self.0[right])) {
@@ -116,7 +114,7 @@ impl Update {
                 }
             }
         }
-        return true;
+        true
     }
 
     fn order_by(&self, rules: &Rules) -> Update {
@@ -140,7 +138,7 @@ impl Update {
 }
 
 mod test {
-    use super::*;
+    
 
     #[test]
     fn test_rules() {
@@ -156,8 +154,8 @@ mod test {
     #[test]
     fn foobar() {
         let rules = Rules::from(vec![(1, 2), (2, 3)]);
-        let updates = vec![Update(vec![1, 2, 3]), Update(vec![2, 1, 3])];
-        assert!(updates[0].allowed_by(&rules) == true);
-        assert!(updates[1].allowed_by(&rules) == false);
+        let updates = [Update(vec![1, 2, 3]), Update(vec![2, 1, 3])];
+        assert!(updates[0].allowed_by(&rules));
+        assert!(!updates[1].allowed_by(&rules));
     }
 }

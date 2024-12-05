@@ -38,9 +38,7 @@ pub struct Report(Vec<i64>);
 
 impl Report {
     fn is_safe_with_problem_dampener(&self) -> bool {
-        self.is_safe()
-            || (0..self.0.len())
-                .any(|idx| self.with_idx_removed(idx).is_safe())
+        self.is_safe() || (0..self.0.len()).any(|idx| self.with_idx_removed(idx).is_safe())
     }
 
     fn with_idx_removed(&self, idx: usize) -> Report {
@@ -58,15 +56,13 @@ impl Report {
         if matches!(direction, Ordering::Equal) {
             return false;
         }
-        let res = levels[1..].iter().fold(Ok(levels[0]), |acc, next| {
-            acc.and_then(|last| {
-                let diff = (last - next).abs();
-                if last.cmp(next).eq(&direction) && diff > 0 && diff <= 3 {
-                    Ok(*next)
-                } else {
-                    Err(())
-                }
-            })
+        let res = levels[1..].iter().try_fold(levels[0], |last, next| {
+            let diff = (last - next).abs();
+            if last.cmp(next).eq(&direction) && diff > 0 && diff <= 3 {
+                Ok(*next)
+            } else {
+                Err(())
+            }
         });
         res.is_ok()
     }
