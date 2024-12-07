@@ -41,19 +41,23 @@ impl AdventOfCodeDay for Day {
     fn part_2(map: Self::Parsed) -> i64 {
         let lines = map.clone().get_all_lines();
 
+        // TODO: Find and pre-insert Patterns like: #----->#
+        //                                                #
+        let prepared_loops = vec![];
+
         let mut obstacles = lines
             .iter()
             .fold(
-                (vec![], vec![]),
-                |(mut prev_lines, mut obstacles), next_line| {
-                    for prev_line in &prev_lines {
-                        if let Some(obstacle) = try_get_obstacle(next_line, &prev_line, &map) {
+                (prepared_loops, vec![]),
+                |(mut looping_lines, mut obstacles), next| {
+                    for looping in &looping_lines {
+                        if let Some(obstacle) = try_get_obstacle(next, &looping, &map) {
                             obstacles.push(obstacle);
                         }
                     }
 
-                    prev_lines.push(extend_line(&next_line, &map));
-                    (prev_lines, obstacles)
+                    looping_lines.push(extend_line(&next, &map));
+                    (looping_lines, obstacles)
                 },
             )
             .1;
