@@ -1,10 +1,11 @@
-use time::OffsetDateTime;
+use time::{Duration, OffsetDateTime};
 
 mod day01;
 mod day02;
 mod day03;
 mod day04;
 mod day05;
+mod day06;
 
 fn main() {
     let days = [
@@ -13,9 +14,11 @@ fn main() {
         day03::Day::print,
         day04::Day::print,
         day05::Day::print,
+        day06::Day::print,
     ];
 
-    let today = OffsetDateTime::now_utc().day() as usize;
+    let today = (OffsetDateTime::now_utc() - Duration::hours(6)).day() as usize;
+
     if today <= days.len() {
         println!("Outputting Day {}", today);
         days[today - 1]();

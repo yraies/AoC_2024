@@ -70,8 +70,10 @@ struct Rules(Vec<(usize, usize)>);
 impl Rules {
     fn allow(&self, pair: (usize, usize)) -> bool {
         // if any rule disallows an inverted pair we return false
-        !self.0
-            .iter().any(|rule| (rule.0, rule.1) == (pair.1, pair.0))
+        !self
+            .0
+            .iter()
+            .any(|rule| (rule.0, rule.1) == (pair.1, pair.0))
     }
 
     fn get_applicable_for(&self, update: &Update) -> Rules {
@@ -137,8 +139,9 @@ impl Update {
     }
 }
 
+#[allow(unused_imports)]
 mod test {
-    
+    use super::*;
 
     #[test]
     fn test_rules() {
